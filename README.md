@@ -1,4 +1,4 @@
-# Introduction 
+# Introdução
  Aplicação desenvolvida com foco na facilidade de uso e na organização, esta aplicação permite aos usuários cadastrar, armazenar e explorar uma variedade de receitas culinárias de forma intuitiva.
 
 Principais funcionalidades:
