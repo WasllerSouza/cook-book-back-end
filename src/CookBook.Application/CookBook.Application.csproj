@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CookBook.Domain\CookBook.Domain.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Communication\CookBook.Communication.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Exceptions\CookBook.Exceptions.csproj" />
