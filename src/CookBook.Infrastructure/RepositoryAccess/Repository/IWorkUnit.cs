@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CookBook.Infrastructure.RepositoryAccess.Repository
+﻿namespace CookBook.Infrastructure.RepositoryAccess.Repository
 {
     public interface IWorkUnit
     {
