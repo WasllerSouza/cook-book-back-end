@@ -11,7 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CookBook.Domain\CookBook.Domain.csproj" />
+    <ProjectReference Include="..\CookBook.Infrastructure\CookBook.Infrastructure.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Communication\CookBook.Communication.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Exceptions\CookBook.Exceptions.csproj" />
   </ItemGroup>
