@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CookBook.Domain.Entity;
+﻿namespace CookBook.Domain.Entity;
 
 public class Usuario : EntityBase
 {
