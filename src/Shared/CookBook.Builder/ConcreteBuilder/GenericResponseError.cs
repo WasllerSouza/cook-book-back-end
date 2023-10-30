@@ -1,6 +1,6 @@
-﻿using CookBook.Communication.Builder;
+﻿using CookBook.Builder.Builder;
 
-namespace CookBook.Communication.ConcreteBuilder;
+namespace CookBook.Builder.ConcreteBuilder;
 
 public sealed class GenericResponseError<T> : GenericResponseBuilder<T>
 {

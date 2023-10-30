@@ -1,8 +1,8 @@
-﻿using CookBook.Communication.Builder;
+﻿using CookBook.Builder.Builder;
 using CookBook.Communication.Response;
 using System.Net;
 
-namespace CookBook.Communication.Director;
+namespace CookBook.Builder.Director;
 
 public class GenericResponseDirector<T>
 {

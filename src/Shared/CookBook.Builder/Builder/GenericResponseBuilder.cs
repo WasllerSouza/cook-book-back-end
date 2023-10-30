@@ -1,6 +1,6 @@
 ﻿using CookBook.Communication.Response;
 
-namespace CookBook.Communication.Builder;
+namespace CookBook.Builder.Builder;
 
 public abstract class GenericResponseBuilder<T>
 {
