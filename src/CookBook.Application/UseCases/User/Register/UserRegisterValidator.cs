@@ -30,7 +30,7 @@ public class UserRegisterValidator : AbstractValidator<UserRegisterRequest>
             RuleFor(user => user.Telefone).Custom((telefone, context) =>
             {
                 string phonePattern = "[0-9]{2} [1-9]{1} [0-9]{4}-[0-9]{4}";
-                var isMatch = Regex.IsMatch(telefone, phonePattern);
+                var isMatch = Regex.IsMatch(telefone, phonePattern, RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
                 if (!isMatch)
                 {
