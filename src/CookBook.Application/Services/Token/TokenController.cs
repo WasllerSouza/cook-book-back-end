@@ -40,7 +40,7 @@ namespace CookBook.Application.Services.Token
             var cookieOptions = new CookieOptions()
             {
                 Path = "/",
-                HttpOnly = false,
+                HttpOnly = true,
                 IsEssential = true,
                 Secure = true,
                 Expires = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes),
