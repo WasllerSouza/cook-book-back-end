@@ -36,11 +36,13 @@ namespace CookBook.Application.Services.Token
             };
 
             var secureToken = tokenHandler.CreateToken(tokenDescription);
+
             var cookieOptions = new CookieOptions()
             {
                 Path = "/",
                 HttpOnly = false,
                 IsEssential = true,
+                Secure = true,
                 Expires = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes),
             };
 
