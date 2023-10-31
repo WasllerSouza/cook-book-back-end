@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace CookBook.Application.UseCases.User.Register;
 
-public class UseRegisterValidator : AbstractValidator<UserRegisterRequest>
+public class UserRegisterValidator : AbstractValidator<UserRegisterRequest>
 {
-    public UseRegisterValidator()
+    public UserRegisterValidator()
     {
         RuleFor(user => user.Nome).NotEmpty().WithMessage(ResourceMessageError.NOME_USUARIO_NULO);
         RuleFor(user => user.Email).NotEmpty().WithMessage(ResourceMessageError.EMAIL_USUARIO_NULO);

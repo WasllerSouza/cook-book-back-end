@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
+using CookBook.Builder.ConcreteBuilder;
+using CookBook.Builder.Director;
 using CookBook.Communication.Request;
 using CookBook.Communication.Response;
 using CookBook.Domain.Entity;
@@ -8,6 +10,7 @@ using CookBook.Domain.Repository;
 using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using CookBook.Infrastructure.RepositoryAccess.Repository;
+using Microsoft.AspNetCore.Http;
 
 namespace CookBook.Application.UseCases.User.Register;
 
@@ -32,30 +35,34 @@ public class UserRegisterUseCase : IUserRegisterUseCase
         _tokenController = tokenController;
     }
 
-    public async Task<UserRegisterResponse> Execute(UserRegisterRequest request)
+    public async Task<GenericResponse<dynamic>> Execute(UserRegisterRequest request, IResponseCookies cookies)
     {
         await Validate(request);
 
         var userEntity = _mapper.Map<Usuario>(request);
-        userEntity.prePersist();
+
         userEntity.Senha = _passwordEncrypt.Encrypt(request.Senha);
 
         await _writeOnlyRepository.Insert(userEntity);
 
         await _workUnit.Commit();
 
-        var token = _tokenController.GenerateToken(userEntity.Email);
+        _tokenController.GenerateToken(request, cookies);
 
-        return new UserRegisterResponse
-        {
-            Token = token,
-        };
+        return GetGenericResponse(new GenericResponseDirector<dynamic>(new GenericResponseSuccess<dynamic>()));
 
+    }
+
+    private GenericResponse<dynamic> GetGenericResponse(GenericResponseDirector<dynamic> response)
+    {
+        response.CreateGenericResponse(null);
+        response.GetGenericResponse().Message = "Usuário criado com sucesso!";
+        return response.GetGenericResponse();
     }
 
     private async Task Validate(UserRegisterRequest request)
     {
-        var validator = new UseRegisterValidator();
+        var validator = new UserRegisterValidator();
         var result = validator.Validate(request);
 
         var isAlreadyUser = await _readOnlyRepository.IsAlreadyARegisteredUser(request.Email);
