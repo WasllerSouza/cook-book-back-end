@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using CookBook.Communication.Request;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -7,6 +9,7 @@ namespace CookBook.Application.Services.Token
     public class TokenController
     {
         private const string EmailAlias = "email";
+        private const string NameAlias = "nome";
         private readonly double _lifeTimeInMinutes;
         private readonly string _secureKey;
 
@@ -16,9 +19,13 @@ namespace CookBook.Application.Services.Token
             _secureKey = secureKey;
         }
 
-        public string GenerateToken(string userEmail)
+        public void GenerateToken(UserRegisterRequest user, IResponseCookies cookies)
         {
-            var claims = new List<Claim> { new Claim(EmailAlias, userEmail) };
+            var claims = new List<Claim>
+            {
+                new Claim(EmailAlias, user.Email),
+                new Claim(NameAlias, user.Nome),
+            };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescription = new SecurityTokenDescriptor
@@ -28,11 +35,19 @@ namespace CookBook.Application.Services.Token
                 SigningCredentials = new SigningCredentials(SimmetricKey(), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var secureToken = tokenHandler.CreateToken(tokenDescription); 
-            return tokenHandler.WriteToken(secureToken);
+            var secureToken = tokenHandler.CreateToken(tokenDescription);
+            var cookieOptions = new CookieOptions()
+            {
+                Path = "/",
+                HttpOnly = false,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes),
+            };
+
+            cookies.Append("token", tokenHandler.WriteToken(secureToken), cookieOptions);
         }
 
-        public void ValidateToken(string token) 
+        public void ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -50,8 +65,8 @@ namespace CookBook.Application.Services.Token
 
         private SymmetricSecurityKey SimmetricKey()
         {
-            var symmetricKey = Convert.FromBase64String( _secureKey );
-            return new SymmetricSecurityKey( symmetricKey );
+            var symmetricKey = Convert.FromBase64String(_secureKey);
+            return new SymmetricSecurityKey(symmetricKey);
         }
     }
 }
