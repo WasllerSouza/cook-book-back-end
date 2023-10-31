@@ -52,7 +52,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"WasllerSouza_cook-book-back-end" /o:"wasllersouza" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
+          SonarScanner.MSBuild.exe begin /k:"WASLLERSOUZACOOKBOOKBACKEND" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
           dotnet build --no-incremental
           dotnet test --collect "Code Coverage"
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          SonarScanner.MSBuild.exe end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
