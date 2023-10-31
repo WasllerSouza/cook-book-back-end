@@ -9,23 +9,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E6F42D01
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8F0B450E-A4DD-4418-8048-81FEE852E1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Communication", "src\Shared\CookBook.Communication\CookBook.Communication.csproj", "{0F8A4111-9F55-40FB-B91D-D99D74DF8DB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Communication", "src\Shared\CookBook.Communication\CookBook.Communication.csproj", "{0F8A4111-9F55-40FB-B91D-D99D74DF8DB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Exceptions", "src\Shared\CookBook.Exceptions\CookBook.Exceptions.csproj", "{48D3AD64-1855-4680-B05D-7E711D283F38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Exceptions", "src\Shared\CookBook.Exceptions\CookBook.Exceptions.csproj", "{48D3AD64-1855-4680-B05D-7E711D283F38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Application", "src\CookBook.Application\CookBook.Application.csproj", "{042C95F3-B06D-4B53-AD0E-300E73F536D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Application", "src\CookBook.Application\CookBook.Application.csproj", "{042C95F3-B06D-4B53-AD0E-300E73F536D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Domain", "src\CookBook.Domain\CookBook.Domain.csproj", "{87F70D62-50B1-4757-B766-ABDCC7C24FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Domain", "src\CookBook.Domain\CookBook.Domain.csproj", "{87F70D62-50B1-4757-B766-ABDCC7C24FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Infrastructure", "src\CookBook.Infrastructure\CookBook.Infrastructure.csproj", "{6854D587-436E-44C0-AE57-E341A15E31AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Infrastructure", "src\CookBook.Infrastructure\CookBook.Infrastructure.csproj", "{6854D587-436E-44C0-AE57-E341A15E31AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Api", "src\CookBook.Api\CookBook.Api.csproj", "{239A3033-95EA-4DF2-8F5E-D72441292B86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Api", "src\CookBook.Api\CookBook.Api.csproj", "{239A3033-95EA-4DF2-8F5E-D72441292B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validators.Test", "tests\Validators.Test\Validators.Test.csproj", "{8BB31F12-B26E-42CC-B5B7-C0A99ED31722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators.Test", "tests\Validators.Test\Validators.Test.csproj", "{8BB31F12-B26E-42CC-B5B7-C0A99ED31722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases.Test", "tests\UseCases.Test\UseCases.Test.csproj", "{9EF1A391-D0CA-40F2-8170-180679961D78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCases.Test", "tests\UseCases.Test\UseCases.Test.csproj", "{9EF1A391-D0CA-40F2-8170-180679961D78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{11B600D6-C58E-4C8F-BD7C-025B84E4985A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{11B600D6-C58E-4C8F-BD7C-025B84E4985A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56DD1029-2625-4A13-B7BE-D2FC12EE09B0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookBook.Builder", "src\Shared\CookBook.Builder\CookBook.Builder.csproj", "{1E7BA41C-B994-4053-8CDC-796E331A3508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Test", "tests\Utils.Test\Utils.Test.csproj", "{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +78,14 @@ Global
 		{11B600D6-C58E-4C8F-BD7C-025B84E4985A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11B600D6-C58E-4C8F-BD7C-025B84E4985A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11B600D6-C58E-4C8F-BD7C-025B84E4985A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E7BA41C-B994-4053-8CDC-796E331A3508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E7BA41C-B994-4053-8CDC-796E331A3508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E7BA41C-B994-4053-8CDC-796E331A3508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E7BA41C-B994-4053-8CDC-796E331A3508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +101,8 @@ Global
 		{8BB31F12-B26E-42CC-B5B7-C0A99ED31722} = {E6F42D01-B03D-4E37-A107-F474B6212ECA}
 		{9EF1A391-D0CA-40F2-8170-180679961D78} = {E6F42D01-B03D-4E37-A107-F474B6212ECA}
 		{11B600D6-C58E-4C8F-BD7C-025B84E4985A} = {E6F42D01-B03D-4E37-A107-F474B6212ECA}
+		{1E7BA41C-B994-4053-8CDC-796E331A3508} = {8F0B450E-A4DD-4418-8048-81FEE852E1B9}
+		{1175C5E2-7CB5-4A6B-A112-63C15B4E3C9D} = {E6F42D01-B03D-4E37-A107-F474B6212ECA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2EE7C7-81F1-417F-8885-08E518858E62}
