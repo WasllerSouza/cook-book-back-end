@@ -1,5 +1,4 @@
-﻿using Dapper;
-using MySqlConnector;
+﻿using MySqlConnector;
 
 namespace CookBook.Infrastructure.Migrations;
 
@@ -8,15 +7,13 @@ public static class Database
     public static void CreateDatabase(string connectionDatabase, string nameDatabase)
     {
         using var sqlConnection = new MySqlConnection(connectionDatabase);
+        sqlConnection.Open();
 
-        var param = new DynamicParameters();
-        param.Add("name", nameDatabase);
+        string sql = $"CREATE DATABASE IF NOT EXISTS {nameDatabase}";
+        MySqlCommand command = new MySqlCommand(sql, sqlConnection);
+        command.ExecuteNonQuery();
 
-        var registers = sqlConnection.Query("SELECT * FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = @name", param);
+        sqlConnection.Close();
 
-        if (!registers.Any())
-        {
-            sqlConnection.Execute($"CREATE DATABASE {nameDatabase}");
-        }
     }
 }
