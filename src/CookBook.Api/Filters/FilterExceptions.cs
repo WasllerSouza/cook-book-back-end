@@ -40,6 +40,7 @@ public class FilterExceptions : IExceptionFilter
         var validationErrorException = context.Exception as ValidationErrorException;
 
         var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
+
         genericResponse.CreateGenericResponse(validationErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode);
 
         context.Result = new ObjectResult(genericResponse.GetGenericResponse());
