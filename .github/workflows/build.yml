@@ -1,13 +1,12 @@
-name: SonarCloud
+name: Sonar Build
 on:
   push:
     branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+      - develop
+      - '**-sonar'  
 jobs:
   build:
-    name: Build and analyze
+    name: Build
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17
@@ -53,6 +52,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"WasllerSouza_cook-book-back-end" /o:"wasllersouza" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"WasllerSouza_cook-book-back-end" /o:"wasllersouza" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths=tests\*.Test\coverage.opencover.xml
           dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
