@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
-using CookBook.Builder.ConcreteBuilder;
-using CookBook.Builder.Director;
+using CookBook.Builder.Builder;
 using CookBook.Communication.Request;
 using CookBook.Communication.Response;
 using CookBook.Domain.Entity;
@@ -11,6 +10,7 @@ using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using CookBook.Infrastructure.RepositoryAccess.Repository;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace CookBook.Application.UseCases.User.Register;
 
@@ -49,15 +49,22 @@ public class UserRegisterUseCase : IUserRegisterUseCase
 
         _tokenController.GenerateToken(request, cookies);
 
-        return GetGenericResponse(new GenericResponseDirector<dynamic>(new GenericResponseSuccess<dynamic>()));
+        return GetGenericResponse();
 
     }
 
-    private GenericResponse<dynamic> GetGenericResponse(GenericResponseDirector<dynamic> response)
+    private GenericResponse<dynamic> GetGenericResponse()
     {
-        response.CreateGenericResponse(null);
-        response.GetGenericResponse().Message = "Usuário criado com sucesso!";
-        return response.GetGenericResponse();
+        //var concretBuilder = new GenericResponseSuccess<dynamic>();
+        //var director = new GenericResponseDirector<dynamic>(concretBuilder);
+        //director.CreateGenericResponse(null);
+        //concretBuilder.GetGenericResponse().Message = "Usuário criado com sucesso!";
+        //return concretBuilder.GetGenericResponse();
+        return new GenericResponseBuilder<dynamic>()
+            .Data(null)
+            .StatusCode((int)HttpStatusCode.Created)
+            .Message("Usuário criado com sucesso")
+            .Build();
     }
 
     private async Task Validate(UserRegisterRequest request)

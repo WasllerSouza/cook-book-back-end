@@ -1,5 +1,4 @@
-﻿using CookBook.Builder.ConcreteBuilder;
-using CookBook.Builder.Director;
+﻿using CookBook.Builder.Builder;
 using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
@@ -39,11 +38,16 @@ public class FilterExceptions : IExceptionFilter
 
         var validationErrorException = context.Exception as ValidationErrorException;
 
-        var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
+        //var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
 
-        genericResponse.CreateGenericResponse(validationErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode);
+        //genericResponse.CreateGenericResponse(validationErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode);
 
-        context.Result = new ObjectResult(genericResponse.GetGenericResponse());
+        context.Result = new ObjectResult(
+            new GenericResponseBuilder<List<string>>()
+            .Errors(validationErrorException.ErrorsMessages.ToList())
+            .StatusCode(context.HttpContext.Response.StatusCode)
+            .Build()
+            );
     }
 
     private void HandleUnknownException(ExceptionContext context)
@@ -53,9 +57,13 @@ public class FilterExceptions : IExceptionFilter
         var messages = new List<string>();
         messages.Add(ResourceMessageError.ERRO_DESCONHECIDO);
 
-        var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
-        genericResponse.CreateGenericResponse(messages, context.HttpContext.Response.StatusCode);
+        //var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
+        //genericResponse.CreateGenericResponse(messages, context.HttpContext.Response.StatusCode);
 
-        context.Result = new ObjectResult(genericResponse.GetGenericResponse());
+        context.Result = new ObjectResult(new GenericResponseBuilder<List<string>>()
+            .Errors(messages)
+            .StatusCode(context.HttpContext.Response.StatusCode)
+            .Build()
+            );
     }
 }
