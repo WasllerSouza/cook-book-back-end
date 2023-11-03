@@ -2,19 +2,58 @@
 
 namespace CookBook.Builder.Builder;
 
-public abstract class GenericResponseBuilder<T>
+public class GenericResponseBuilder<T>
 {
-    protected GenericResponse<T> genericResponseBuilder;
+    private readonly GenericResponse<T> _response;
 
-    public void CreateGenericResponse()
+    public GenericResponseBuilder()
     {
-        genericResponseBuilder = new GenericResponse<T>();
+        _response = new GenericResponse<T>();
+    }
+    public GenericResponseBuilder<T> Data(T data)
+    {
+        _response.Data = data;
+        return this;
+    }
+    public GenericResponseBuilder<T> Errors(T error)
+    {
+        _response.Errors = error;
+        return this;
+    }
+    public GenericResponseBuilder<T> StatusCode(int statusCode)
+    {
+        _response.StatusCode = statusCode;
+        return this;
+    }
+    public GenericResponseBuilder<T> Message(string message)
+    {
+        _response.Message = message;
+        return this;
     }
 
-    public GenericResponse<T> GetGenericResponse()
+    public GenericResponse<T> Build()
     {
-        return genericResponseBuilder;
+        return _response;
     }
-
-    public abstract void UpdateGenericResponse(T data, int statusCode);
 }
+//public abstract class GenericResponseBuilder<T>
+//{
+//    protected GenericResponse<T> genericResponseBuilder;
+
+//    //Atribuição do T
+//    //Atribuição de status
+
+//    public void CreateGenericResponse()
+//    {
+//        genericResponseBuilder = new GenericResponse<T>();
+//    }
+
+//    public GenericResponse<T> GetGenericResponse()
+//    {
+//        return genericResponseBuilder;
+//    }
+
+//    public abstract void UpdateResponse(T data);
+//    public abstract void UpdateStatus(int statusCode = (int) HttpStatusCode.OK);
+//    public abstract void UpdateMessage(string message = "");
+//}
