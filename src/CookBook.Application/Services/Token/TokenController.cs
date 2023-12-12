@@ -1,4 +1,5 @@
 ﻿using CookBook.Communication.Request;
+using CookBook.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,7 +20,7 @@ namespace CookBook.Application.Services.Token
             _secureKey = secureKey;
         }
 
-        public void GenerateToken(UserRegisterRequest user, IResponseCookies cookies)
+        public void GenerateToken(Usuario user, IResponseCookies cookies)
         {
             var claims = new List<Claim>
             {
