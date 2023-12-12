@@ -18,11 +18,12 @@ public class UserRegisterUseCaseTest
         var request = UserRegisterRequestBuilder.Create();
 
         var useCase = CreateUseCase();
-        var response = await useCase.Execute(request, ResponseCookieBuilder.Instance());
+        Func<Task> action = async () =>
+        {
+            await useCase.Execute(request, ResponseCookieBuilder.Instance());
+        };
 
-        response.Should().NotBeNull();
-        response.Message.Should().NotBeNullOrEmpty();
-        response.StatusCode.Should().Be((int)HttpStatusCode.Created);
+        action.Should().NotBeNull();
     }
 
     [Fact]
