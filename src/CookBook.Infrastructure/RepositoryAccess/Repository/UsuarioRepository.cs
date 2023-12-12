@@ -19,6 +19,15 @@ public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRe
 
     public async Task<bool> IsAlreadyARegisteredUser(string email)
     {
-        return await _context.Usuarios.AnyAsync(usuario => usuario.Email.Equals(email));
+        return await _context.Usuarios
+            .AsNoTracking()
+            .AnyAsync(usuario => usuario.Email.Equals(email));
+    }
+
+    public async Task<Usuario> SingIn(string email, string password)
+    {
+        return await _context.Usuarios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(usuario => email.Equals(usuario.Email) && password.Equals(usuario.Senha));
     }
 }

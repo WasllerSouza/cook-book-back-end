@@ -1,4 +1,5 @@
 using CookBook.Application.UseCases.User.Register;
+using CookBook.Application.UseCases.User.SingIn;
 using CookBook.Communication.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,26 @@ namespace CookBook.Api.Controllers
     {
 
         [HttpPost("register", Name = "register")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterUser(
             [FromServices] IUserRegisterUseCase useCase,
             [FromBody] UserRegisterRequest request)
         {
-            var genericResponse = await useCase.Execute(request, HttpContext.Response.Cookies);
+            await useCase.Execute(request, HttpContext.Response.Cookies);
             
-            return Created(string.Empty, genericResponse);
+            return Created(string.Empty, null);
+
+        }
+        
+        [HttpPost("login", Name = "login")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SingInUser(
+            [FromServices] ISingInUseCase useCase,
+            [FromBody] UserSingInRequest request)
+        {
+            await useCase.Execute(request, HttpContext.Response.Cookies);
+            
+            return Ok();
 
         }
 
