@@ -1,6 +1,8 @@
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
 using CookBook.Communication.Request;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,25 +16,27 @@ namespace CookBook.Api.Controllers
     {
 
         [HttpPost("register", Name = "register")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(void), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterUser(
             [FromServices] IUserRegisterUseCase useCase,
             [FromBody] UserRegisterRequest request)
         {
             await useCase.Execute(request, HttpContext.Response.Cookies);
-            
+
             return Created(string.Empty, null);
 
         }
-        
+
         [HttpPost("login", Name = "login")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
         public async Task<IActionResult> SingInUser(
             [FromServices] ISingInUseCase useCase,
             [FromBody] UserSingInRequest request)
         {
             await useCase.Execute(request, HttpContext.Response.Cookies);
-            
+
             return Ok();
 
         }
