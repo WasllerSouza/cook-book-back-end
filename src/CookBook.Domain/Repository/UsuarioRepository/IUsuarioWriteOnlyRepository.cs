@@ -1,6 +1,6 @@
 ﻿using CookBook.Domain.Entity;
 
-namespace CookBook.Domain.Repository;
+namespace CookBook.Domain.Repository.UsuarioRepository;
 
 public interface IUsuarioWriteOnlyRepository
 {

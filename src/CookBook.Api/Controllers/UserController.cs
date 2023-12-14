@@ -1,3 +1,5 @@
+using CookBook.Api.Filters;
+using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
 using CookBook.Communication.Request;
@@ -30,12 +32,25 @@ namespace CookBook.Api.Controllers
 
         [HttpPost("login", Name = "login")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SingInUser(
             [FromServices] ISingInUseCase useCase,
             [FromBody] UserSingInRequest request)
         {
             await useCase.Execute(request, HttpContext.Response.Cookies);
+
+            return Ok();
+
+        }
+        
+        [HttpPut("recovery-password", Name = "recovery-password")]
+        [ServiceFilter(typeof(AuthenticatedUser))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RecoveryPasswordUser(
+            [FromServices] IRecoveryPasswordUseCase useCase,
+            [FromBody] UserRecoveryPasswordRequest request)
+        {
+            await useCase.Execute(request);
 
             return Ok();
 
