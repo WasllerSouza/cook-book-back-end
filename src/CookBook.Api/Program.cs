@@ -1,22 +1,25 @@
 using CookBook.Api.Filters;
+using CookBook.Api.Middleware;
 using CookBook.Application;
 using CookBook.Application.Services.AutoMapper;
 using CookBook.Domain.Extension;
 using CookBook.Infrastructure;
 using CookBook.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddRouting(option => option.LowercaseUrls = true);
+
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,7 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 
-builder.Services.AddRepository(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(FilterExceptions)));
@@ -37,9 +40,12 @@ builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(config
 #region [Cors]
 builder.Services.AddAuthorization(options =>
 {
-    // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
+    options.AddPolicy("UsuarioLogado", policy => policy.Requirements.Add(new UserLoggedInRequiriment()));
 });
+#endregion
+
+#region [Adiciona atributo para validar se o usuário esta logado]
+builder.Services.AddScoped<AuthenticatedUser>();
 #endregion
 
 var app = builder.Build();
@@ -66,6 +72,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#region [Add middleware para escolha de linguagem]
+app.UseMiddleware<CultureMiddleware>();
+#endregion
 
 UpdateInternalDatabase();
 
