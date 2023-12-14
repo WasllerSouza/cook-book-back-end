@@ -1,7 +1,7 @@
 ﻿using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
 using CookBook.Communication.Request;
-using CookBook.Domain.Repository;
+using CookBook.Domain.Repository.UsuarioRepository;
 using CookBook.Exceptions;
 using FluentMigrator.Infrastructure;
 using Microsoft.AspNetCore.Http;

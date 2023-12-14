@@ -3,7 +3,7 @@ using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
 using CookBook.Communication.Request;
 using CookBook.Domain.Entity;
-using CookBook.Domain.Repository;
+using CookBook.Domain.Repository.UsuarioRepository;
 using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using CookBook.Infrastructure.RepositoryAccess.Repository;

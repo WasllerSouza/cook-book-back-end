@@ -19,7 +19,7 @@ public class FilterExceptions : IExceptionFilter
         }
         else
         {
-            HandleUnknownException(context);
+           // HandleUnknownException(context);
         }
     }
 
