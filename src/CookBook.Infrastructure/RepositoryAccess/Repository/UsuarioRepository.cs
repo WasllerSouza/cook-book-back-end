@@ -1,10 +1,10 @@
 ﻿using CookBook.Domain.Entity;
-using CookBook.Domain.Repository;
+using CookBook.Domain.Repository.UsuarioRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace CookBook.Infrastructure.RepositoryAccess.Repository;
 
-public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRepository
+public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRepository, IUsuarioUpdateOnlyRepository
 {
     private readonly CookBookContext _context;
 
@@ -12,9 +12,23 @@ public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRe
     {
         _context = context;
     }
+
+    public async Task<Usuario> GetById(long id)
+    {
+        return await _context.Usuarios
+            .FirstOrDefaultAsync(usuario => usuario.Id == id);
+    }
+
+    public async Task<Usuario> GetUserByEmail(string email)
+    {
+       return await _context.Usuarios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(usuario => email.Equals(usuario.Email));
+    }
+
     public async Task Insert(Usuario usuario)
     {
-       await _context.Usuarios.AddAsync(usuario);
+        await _context.Usuarios.AddAsync(usuario);
     }
 
     public async Task<bool> IsAlreadyARegisteredUser(string email)
@@ -29,5 +43,10 @@ public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRe
         return await _context.Usuarios
             .AsNoTracking()
             .FirstOrDefaultAsync(usuario => email.Equals(usuario.Email) && password.Equals(usuario.Senha));
+    }
+
+    public void Update(Usuario usuario)
+    {
+        _context.Usuarios.Update(usuario);
     }
 }

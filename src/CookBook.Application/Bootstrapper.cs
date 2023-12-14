@@ -1,5 +1,7 @@
 ﻿using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
+using CookBook.Application.Services.UserSession;
+using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
 using Microsoft.Extensions.Configuration;
@@ -14,18 +16,19 @@ namespace CookBook.Application
             AddEncryptKey(services, configuration);
             AddTokenJWT(services, configuration);
             AddUseCase(services);
+            AddUserSession(services);
         }
 
         private static void AddEncryptKey(IServiceCollection services, IConfiguration configuration)
         {
-            var section = configuration.GetRequiredSection("Configuration:_encryptKey");
+            var section = configuration.GetRequiredSection("Configuration:EncryptionPassword:_encryptKey");
             services.AddScoped(option => new PasswordEncrypt(section.Value));
         }
 
         private static void AddTokenJWT(IServiceCollection services, IConfiguration configuration)
         {
-            var sectionLifeTime = configuration.GetRequiredSection("Configuration:_lifeTimeInMinutes");
-            var sectionSecureKey = configuration.GetRequiredSection("Configuration:_secureKey");
+            var sectionLifeTime = configuration.GetRequiredSection("Configuration:Jwt:_lifeTimeInMinutes");
+            var sectionSecureKey = configuration.GetRequiredSection("Configuration:Jwt:_secureKey");
 
             services.AddScoped(option => new TokenController(int.Parse(sectionLifeTime.Value), sectionSecureKey.Value));
         }
@@ -33,7 +36,13 @@ namespace CookBook.Application
         private static void AddUseCase(IServiceCollection services)
         {
             services.AddScoped<ISingInUseCase, UserSingInUseCase>()
+                    .AddScoped<IRecoveryPasswordUseCase, RecoveryPasswordUseCase>()
                     .AddScoped<IUserRegisterUseCase, UserRegisterUseCase>();
+        }
+        
+        private static void AddUserSession(IServiceCollection services)
+        {
+            services.AddScoped<IUserSession, UserSession>();
         }
     }
 }
