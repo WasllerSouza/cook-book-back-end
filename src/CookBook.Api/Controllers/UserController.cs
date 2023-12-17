@@ -17,7 +17,7 @@ namespace CookBook.Api.Controllers
     public class UserController : ControllerBase
     {
 
-        [HttpPost("register", Name = "register")]
+        [HttpPost("register", Name = "user-register")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(void), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterUser(
@@ -30,7 +30,7 @@ namespace CookBook.Api.Controllers
 
         }
 
-        [HttpPost("login", Name = "login")]
+        [HttpPost("login", Name = "user-login")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         public async Task<IActionResult> SingInUser(
@@ -43,7 +43,7 @@ namespace CookBook.Api.Controllers
 
         }
         
-        [HttpPut("recovery-password", Name = "recovery-password")]
+        [HttpPut("recovery-password", Name = "user-recovery-password")]
         [ServiceFilter(typeof(AuthenticatedUser))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> RecoveryPasswordUser(
