@@ -13,10 +13,10 @@ public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRe
         _context = context;
     }
 
-    public async Task<Usuario> GetById(long id)
+    public async Task<Usuario> GetById(Guid id)
     {
         return await _context.Usuarios
-            .FirstOrDefaultAsync(usuario => usuario.Id == id);
+            .FirstOrDefaultAsync(usuario => usuario.Id.Equals(id));
     }
 
     public async Task<Usuario> GetUserByEmail(string email)
