@@ -7,6 +7,7 @@ using CookBook.Infrastructure.RepositoryAccess.Repository;
 using CookBook.Infrastructure.RepositoryAccess;
 using Microsoft.EntityFrameworkCore;
 using CookBook.Domain.Repository.UsuarioRepository;
+using CookBook.Domain.Repository.ReceitaRepository;
 
 namespace CookBook.Infrastructure;
 
@@ -44,7 +45,9 @@ public static class Bootstrapper
         services
             .AddScoped<IUsuarioWriteOnlyRepository, UsuarioRepository>()
             .AddScoped<IUsuarioReadOnlyRepository, UsuarioRepository>()
-            .AddScoped<IUsuarioUpdateOnlyRepository, UsuarioRepository>();
+            .AddScoped<IUsuarioUpdateOnlyRepository, UsuarioRepository>()
+            .AddScoped<IReceitaWriteOnlyRepository, ReceitaRepository>()
+            ;
     }
 
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configurationManager)

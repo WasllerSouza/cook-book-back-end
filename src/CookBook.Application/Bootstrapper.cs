@@ -1,6 +1,7 @@
 ﻿using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
 using CookBook.Application.Services.UserSession;
+using CookBook.Application.UseCases.Revenue.Register;
 using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
@@ -37,9 +38,11 @@ namespace CookBook.Application
         {
             services.AddScoped<ISingInUseCase, UserSingInUseCase>()
                     .AddScoped<IRecoveryPasswordUseCase, RecoveryPasswordUseCase>()
-                    .AddScoped<IUserRegisterUseCase, UserRegisterUseCase>();
+                    .AddScoped<IUserRegisterUseCase, UserRegisterUseCase>()
+                    .AddScoped<IRevenueRegisterUseCase, RevenueRegisterUseCase>()
+                    ;
         }
-        
+
         private static void AddUserSession(IServiceCollection services)
         {
             services.AddScoped<IUserSession, UserSession>();
