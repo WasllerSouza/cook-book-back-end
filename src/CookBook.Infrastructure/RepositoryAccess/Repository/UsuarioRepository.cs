@@ -47,6 +47,7 @@ public class UsuarioRepository : IUsuarioReadOnlyRepository, IUsuarioWriteOnlyRe
 
     public void Update(Usuario usuario)
     {
+        usuario.preUpdate();
         _context.Usuarios.Update(usuario);
     }
 }
