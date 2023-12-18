@@ -2,14 +2,17 @@
 using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
 using CookBook.Communication.Request;
+using CookBook.Communication.Response;
 using CookBook.Domain.Entity;
 using CookBook.Domain.Repository.UsuarioRepository;
 using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using CookBook.Infrastructure.RepositoryAccess.Repository;
+using FactoryMethod.ConcreteCreator;
 using Microsoft.AspNetCore.Http;
 using Strategy.ConcreteStrategy;
 using Strategy.Context;
+using System.Net;
 
 namespace CookBook.Application.UseCases.User.Register;
 
@@ -21,10 +24,10 @@ public class UserRegisterUseCase : IUserRegisterUseCase
     private readonly IMapper _mapper;
     private readonly IWorkUnit _workUnit;
     private readonly PasswordEncrypt _passwordEncrypt;
-    private readonly TokenController _tokenController;
+    private readonly TokenService _tokenController;
 
     public UserRegisterUseCase(IUsuarioWriteOnlyRepository writeOnlyRepository, IUsuarioReadOnlyRepository readOnlyRepository,
-        IMapper mapper, IWorkUnit workUnit, PasswordEncrypt passwordEncrypt, TokenController tokenController)
+        IMapper mapper, IWorkUnit workUnit, PasswordEncrypt passwordEncrypt, TokenService tokenController)
     {
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
@@ -34,7 +37,7 @@ public class UserRegisterUseCase : IUserRegisterUseCase
         _tokenController = tokenController;
     }
 
-    public async Task Execute(UserRegisterRequest request, IResponseCookies cookies)
+    public async Task<GenericResponse<dynamic>> Execute(UserRegisterRequest request)
     {
         await Validate(request);
 
@@ -46,8 +49,20 @@ public class UserRegisterUseCase : IUserRegisterUseCase
 
         await _workUnit.Commit();
 
-        _tokenController.GenerateToken(userEntity, cookies);
+        var token = _tokenController.GenerateToken(userEntity);
+        return FactoryMethod(token, (int)HttpStatusCode.Created);
+    }
 
+    private GenericResponse<dynamic> FactoryMethod(dynamic data, int statusCode)
+    {
+        dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
+        dynamicResponse.Data = data;
+        dynamicResponse.StatusCode = statusCode;
+        dynamicResponse.Message = "Receita criada com sucesso!";
+
+        var creator = new ConcreteCreatorSuccessResponse();
+
+        return creator.SomeOperation(dynamicResponse);
     }
 
     private async Task Validate(UserRegisterRequest request)

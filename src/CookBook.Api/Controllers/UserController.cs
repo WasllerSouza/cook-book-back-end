@@ -24,22 +24,22 @@ namespace CookBook.Api.Controllers
             [FromServices] IUserRegisterUseCase useCase,
             [FromBody] UserRegisterRequest request)
         {
-            await useCase.Execute(request, HttpContext.Response.Cookies);
+            var response = await useCase.Execute(request);
 
-            return Created(string.Empty, null);
+            return Created(string.Empty, response);
 
         }
 
         [HttpPost("login", Name = "user-login")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
         public async Task<IActionResult> SingInUser(
             [FromServices] ISingInUseCase useCase,
             [FromBody] UserSingInRequest request)
         {
-            await useCase.Execute(request, HttpContext.Response.Cookies);
+            var response = await useCase.Execute(request);
 
-            return Ok();
+            return Ok(response);
 
         }
         

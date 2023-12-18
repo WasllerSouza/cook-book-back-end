@@ -8,9 +8,9 @@ namespace CookBook.Application.Services.UserSession;
 public class UserSession : IUserSession
 {
     private readonly IHttpContextAccessor _contextAccessor;
-    private readonly TokenController _tokenController;
+    private readonly TokenService _tokenController;
     private readonly IUsuarioReadOnlyRepository _repository;
-    public UserSession(IHttpContextAccessor contextAccessor, TokenController tokenController, IUsuarioReadOnlyRepository repository)
+    public UserSession(IHttpContextAccessor contextAccessor, TokenService tokenController, IUsuarioReadOnlyRepository repository)
     {
         _contextAccessor = contextAccessor;
         _tokenController = tokenController;
