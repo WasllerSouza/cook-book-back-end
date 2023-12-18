@@ -2,6 +2,7 @@
 using CookBook.Application.Services.Token;
 using CookBook.Application.Services.UserSession;
 using CookBook.Application.UseCases.Revenue.Register;
+using CookBook.Application.UseCases.Token;
 using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
@@ -31,7 +32,7 @@ namespace CookBook.Application
             var sectionLifeTime = configuration.GetRequiredSection("Configuration:Jwt:_lifeTimeInMinutes");
             var sectionSecureKey = configuration.GetRequiredSection("Configuration:Jwt:_secureKey");
 
-            services.AddScoped(option => new TokenController(int.Parse(sectionLifeTime.Value), sectionSecureKey.Value));
+            services.AddScoped(option => new TokenService(int.Parse(sectionLifeTime.Value), sectionSecureKey.Value));
         }
 
         private static void AddUseCase(IServiceCollection services)
@@ -40,6 +41,7 @@ namespace CookBook.Application
                     .AddScoped<IRecoveryPasswordUseCase, RecoveryPasswordUseCase>()
                     .AddScoped<IUserRegisterUseCase, UserRegisterUseCase>()
                     .AddScoped<IRevenueRegisterUseCase, RevenueRegisterUseCase>()
+                    .AddScoped<ITokenUseCase, TokenUseCase>()
                     ;
         }
 

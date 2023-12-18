@@ -59,10 +59,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 #region [Cors]
-app.UseCors(x => //x.SetIsOriginAllowed(x => x.StartsWith("http:\\localhost:4200"))
-    x.AllowAnyOrigin()
-.AllowAnyMethod()
-.AllowAnyHeader());
+app.UseCors(x => 
+    //x.AllowAnyOrigin()
+    x.SetIsOriginAllowed(x => x.StartsWith("http://localhost:4200"))
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 #endregion
 
 

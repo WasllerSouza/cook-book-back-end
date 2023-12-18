@@ -17,10 +17,10 @@ namespace CookBook.Api.Filters;
 public class AuthenticatedUser : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
 
-    private readonly TokenController _tokenController;
+    private readonly TokenService _tokenController;
     private readonly IUsuarioReadOnlyRepository _repository;
 
-    public AuthenticatedUser(TokenController tokenController, IUsuarioReadOnlyRepository repository)
+    public AuthenticatedUser(TokenService tokenController, IUsuarioReadOnlyRepository repository)
     {
         _tokenController = tokenController;
         _repository = repository;

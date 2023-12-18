@@ -6,20 +6,20 @@ using System.Security.Claims;
 
 namespace CookBook.Application.Services.Token
 {
-    public class TokenController
+    public class TokenService
     {
         private const string EmailAlias = "usuarioEmail";
         private const string NameAlias = "nome";
         private readonly double _lifeTimeInMinutes;
         private readonly string _secureKey;
 
-        public TokenController(double lifeTimeInMinutes, string secureKey)
+        public TokenService(double lifeTimeInMinutes, string secureKey)
         {
             _lifeTimeInMinutes = lifeTimeInMinutes;
             _secureKey = secureKey;
         }
 
-        public void GenerateToken(Usuario user, IResponseCookies cookies)
+        public dynamic GenerateToken(Usuario user)
         {
             var claims = new List<Claim>
             {
@@ -35,18 +35,20 @@ namespace CookBook.Application.Services.Token
                 SigningCredentials = new SigningCredentials(SimmetricKey(), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var secureToken = tokenHandler.CreateToken(tokenDescription);
+            var securityToken = tokenHandler.CreateToken(tokenDescription);
 
             var cookieOptions = new CookieOptions()
             {
                 Path = "/",
-                HttpOnly = true,
+                HttpOnly = false,
                 IsEssential = true,
                 Secure = true,
                 Expires = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes),
             };
-
-            cookies.Append("token", tokenHandler.WriteToken(secureToken), cookieOptions);
+            dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
+            dynamicResponse.Token = tokenHandler.WriteToken(securityToken);
+            dynamicResponse.LifeTimeInMinutes = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes);
+            return dynamicResponse;
         }
 
         public ClaimsPrincipal ValidateToken(string token)
