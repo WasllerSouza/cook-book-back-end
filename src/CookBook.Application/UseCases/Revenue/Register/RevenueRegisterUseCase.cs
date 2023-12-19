@@ -32,7 +32,7 @@ public class RevenueRegisterUseCase : IRevenueRegisterUseCase
         _session = session;
     }
 
-    public async Task<GenericResponse<dynamic>> Execute(RevenueRequest request)
+    public async Task<GenericResponse<RevenueResponse>> Execute(RevenueRequest request)
     {
         Validate(request);
 
@@ -49,16 +49,15 @@ public class RevenueRegisterUseCase : IRevenueRegisterUseCase
         return FactoryMethod(_mapper.Map<RevenueResponse>(receita), (int)HttpStatusCode.Created);
     }
 
-    private GenericResponse<dynamic> FactoryMethod(RevenueResponse data, int statusCode)
+    private GenericResponse<RevenueResponse> FactoryMethod(RevenueResponse data, int statusCode)
     {
         dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
         dynamicResponse.Data = data;
         dynamicResponse.StatusCode = statusCode;
-        dynamicResponse.Message = "Receita criada com sucesso!";
 
-        var creator = new ConcreteCreatorSuccessResponse();
+        var creator = new ConcreteCreatorSuccessResponse<RevenueResponse>();
 
-        return creator.SomeOperation(dynamicResponse);
+        return creator.SomeOperation(dynamicResponse, "Receita criada com sucesso!");
     }
 
     private void Validate(RevenueRequest request)

@@ -3,14 +3,15 @@ using FactoryMethod.Creator;
 
 namespace FactoryMethod.ConcreteProduct;
 
-public class ConcreteProductErrorResponse : IProduct
+public class ConcreteProductErrorResponse<T> : IProduct<T>
 {
-    public GenericResponse<dynamic> Operation(dynamic data)
+    public GenericResponse<T> Operation(dynamic data, string? message = default)
     {
-        var response = new GenericResponse<dynamic>();
+        var response = new GenericResponse<T>();
         response.Errors = data.Errors;
         response.StatusCode = data.StatusCode;
         response.Success = false;
+        response.Message = message;
         return response;
     }
 }

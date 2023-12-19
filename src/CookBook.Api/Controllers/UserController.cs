@@ -3,6 +3,7 @@ using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
 using CookBook.Application.UseCases.User.SingIn;
 using CookBook.Communication.Request;
+using CookBook.Communication.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +20,12 @@ namespace CookBook.Api.Controllers
 
         [HttpPost("register", Name = "user-register")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(void), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(GenericResponse<TokenResponse>), StatusCodes.Status201Created)]
         public async Task<IActionResult> RegisterUser(
             [FromServices] IUserRegisterUseCase useCase,
             [FromBody] UserRegisterRequest request)
         {
-            var response = await useCase.Execute(request);
+            GenericResponse<TokenResponse> response = await useCase.Execute(request);
 
             return Created(string.Empty, response);
 
@@ -32,12 +33,12 @@ namespace CookBook.Api.Controllers
 
         [HttpPost("login", Name = "user-login")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GenericResponse<TokenResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SingInUser(
             [FromServices] ISingInUseCase useCase,
             [FromBody] UserSingInRequest request)
         {
-            var response = await useCase.Execute(request);
+            GenericResponse<TokenResponse> response = await useCase.Execute(request);
 
             return Ok(response);
 

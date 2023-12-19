@@ -3,10 +3,10 @@ using FactoryMethod.Creator;
 
 namespace FactoryMethod.ConcreteCreator;
 
-public class ConcreteCreatorErrorResponse : CreatorFactory
+public class ConcreteCreatorErrorResponse<T> : CreatorFactory<T>
 {
-    public override IProduct FactoryMethod()
+    public override IProduct<T> FactoryMethod()
     {
-        return new ConcreteProductErrorResponse();
+        return new ConcreteProductErrorResponse<T>();
     }
 }

@@ -81,7 +81,7 @@ public class AuthenticatedUser : AuthorizeAttribute, IAsyncAuthorizationFilter
         };
         dynamicResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
 
-        context.Result = new UnauthorizedObjectResult(new ConcreteCreatorErrorResponse().SomeOperation(dynamicResponse));
+        context.Result = new UnauthorizedObjectResult(new ConcreteCreatorErrorResponse<List<string>>().SomeOperation(dynamicResponse));
     }
 
     private void UserAccessForbidden(AuthorizationFilterContext context)
@@ -94,6 +94,6 @@ public class AuthenticatedUser : AuthorizeAttribute, IAsyncAuthorizationFilter
         };
         dynamicResponse.StatusCode = (int)HttpStatusCode.Forbidden;
 
-        context.Result = new UnauthorizedObjectResult(new ConcreteCreatorErrorResponse().SomeOperation(dynamicResponse));
+        context.Result = new UnauthorizedObjectResult(new ConcreteCreatorErrorResponse<List<string>>().SomeOperation(dynamicResponse));
     }
 }

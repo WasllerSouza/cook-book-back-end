@@ -1,8 +1,9 @@
 ﻿using CookBook.Domain.Entity;
 using CookBook.Domain.Repository.ReceitaRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace CookBook.Infrastructure.RepositoryAccess.Repository;
-public class ReceitaRepository : IReceitaWriteOnlyRepository
+public class ReceitaRepository : IReceitaWriteOnlyRepository, IReceitaReadOnlyRepository
 {
 
     private readonly CookBookContext _context;
@@ -11,8 +12,13 @@ public class ReceitaRepository : IReceitaWriteOnlyRepository
     {
         _context = context;
     }
-    public async Task Create(Receita receita)
+    public async Task Create(Receita receita) => await _context.Receitas.AddAsync(receita);
+   
+    public async Task<IList<Receita>> GetAllByUser(Guid userId)
     {
-        await _context.Receitas.AddAsync(receita);
+         return await _context.Receitas
+            .AsNoTracking()
+            .Include(r => r.Ingredientes)
+            .Where(receita => receita.UsuarioId == userId).ToListAsync();
     }
 }

@@ -56,8 +56,10 @@ public class FilterExceptions : IExceptionFilter
     {
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        var messages = new List<string>();
-        messages.Add(ResourceMessageError.ERRO_DESCONHECIDO);
+        var messages = new List<string>()
+        {
+            ResourceMessageError.ERRO_DESCONHECIDO 
+        };
 
         context.Result = new ObjectResult(
                 FactoryMethod(messages, context.HttpContext.Response.StatusCode)
@@ -70,7 +72,7 @@ public class FilterExceptions : IExceptionFilter
         dynamicResponse.Errors = errors;
         dynamicResponse.StatusCode = statusCode;
 
-        var creator = new ConcreteCreatorErrorResponse();
+        var creator = new ConcreteCreatorErrorResponse<List<string>>();
 
         return creator.SomeOperation(dynamicResponse);
     }

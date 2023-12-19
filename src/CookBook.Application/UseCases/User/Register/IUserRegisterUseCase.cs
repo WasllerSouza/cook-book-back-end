@@ -5,5 +5,5 @@ namespace CookBook.Application.UseCases.User.Register;
 
 public interface IUserRegisterUseCase
 {
-    Task<GenericResponse<dynamic>> Execute(UserRegisterRequest user);
+    Task<GenericResponse<TokenResponse>> Execute(UserRegisterRequest user);
 }
