@@ -24,5 +24,7 @@ public class ConfigureAutoMapper : Profile
     {
         CreateMap<Receita, RevenueResponse> ();
         CreateMap<Ingrediente, IngredientResponse>();
+        CreateMap<Receita, DashBoardResponse>()
+            .ForMember(destiny => destiny.QuantidadeIngredientes, config => config.MapFrom(origin => origin.Ingredientes.Count));
     }
 }

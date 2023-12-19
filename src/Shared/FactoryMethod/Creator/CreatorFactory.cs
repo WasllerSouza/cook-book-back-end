@@ -2,14 +2,14 @@
 
 namespace FactoryMethod.Creator;
 
-public abstract class CreatorFactory
+public abstract class CreatorFactory<T>
 {
-    public abstract IProduct FactoryMethod();
+    public abstract IProduct<T> FactoryMethod();
 
-    public GenericResponse<dynamic> SomeOperation(dynamic data)
+    public GenericResponse<T> SomeOperation(dynamic data, string? message = default)
     {
         var product = FactoryMethod();
-        var result = product.Operation(data);
+        GenericResponse<T> result = product.Operation(data, message);
 
         return result;
     }

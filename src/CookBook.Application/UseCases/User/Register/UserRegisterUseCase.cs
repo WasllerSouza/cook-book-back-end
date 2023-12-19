@@ -37,7 +37,7 @@ public class UserRegisterUseCase : IUserRegisterUseCase
         _tokenController = tokenController;
     }
 
-    public async Task<GenericResponse<dynamic>> Execute(UserRegisterRequest request)
+    public async Task<GenericResponse<TokenResponse>> Execute(UserRegisterRequest request)
     {
         await Validate(request);
 
@@ -49,18 +49,17 @@ public class UserRegisterUseCase : IUserRegisterUseCase
 
         await _workUnit.Commit();
 
-        var token = _tokenController.GenerateToken(userEntity);
+        TokenResponse token = _tokenController.GenerateToken(userEntity);
         return FactoryMethod(token, (int)HttpStatusCode.Created);
     }
 
-    private GenericResponse<dynamic> FactoryMethod(dynamic data, int statusCode)
+    private GenericResponse<TokenResponse> FactoryMethod(TokenResponse data, int statusCode)
     {
         dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
         dynamicResponse.Data = data;
         dynamicResponse.StatusCode = statusCode;
-        dynamicResponse.Message = "Receita criada com sucesso!";
 
-        var creator = new ConcreteCreatorSuccessResponse();
+        var creator = new ConcreteCreatorSuccessResponse<TokenResponse>();
 
         return creator.SomeOperation(dynamicResponse);
     }

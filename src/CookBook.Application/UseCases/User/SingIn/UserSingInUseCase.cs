@@ -23,7 +23,7 @@ public class UserSingInUseCase : ISingInUseCase
         _passwordEncrypt = passwordEncrypt;
         _tokenController = tokenController;
     }
-    public async Task<GenericResponse<dynamic>> Execute(UserSingInRequest request)
+    public async Task<GenericResponse<TokenResponse>> Execute(UserSingInRequest request)
     {
 
         var passwordEncrypted = _passwordEncrypt.Encrypt(request.Senha);
@@ -40,18 +40,17 @@ public class UserSingInUseCase : ISingInUseCase
 
         }
 
-        var token = _tokenController.GenerateToken(usuario);
+        TokenResponse token = _tokenController.GenerateToken(usuario);
         return FactoryMethod(token, (int)HttpStatusCode.OK);
     }
 
-    private GenericResponse<dynamic> FactoryMethod(dynamic data, int statusCode)
+    private GenericResponse<TokenResponse> FactoryMethod(TokenResponse data, int statusCode)
     {
         dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
         dynamicResponse.Data = data;
         dynamicResponse.StatusCode = statusCode;
-        dynamicResponse.Message = "Receita criada com sucesso!";
 
-        var creator = new ConcreteCreatorSuccessResponse();
+        var creator = new ConcreteCreatorSuccessResponse<TokenResponse>();
         return creator.SomeOperation(dynamicResponse);
 
     }

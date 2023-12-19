@@ -47,6 +47,7 @@ public static class Bootstrapper
             .AddScoped<IUsuarioReadOnlyRepository, UsuarioRepository>()
             .AddScoped<IUsuarioUpdateOnlyRepository, UsuarioRepository>()
             .AddScoped<IReceitaWriteOnlyRepository, ReceitaRepository>()
+            .AddScoped<IReceitaReadOnlyRepository, ReceitaRepository>()
             ;
     }
 

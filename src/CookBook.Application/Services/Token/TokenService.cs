@@ -1,5 +1,5 @@
-﻿using CookBook.Domain.Entity;
-using Microsoft.AspNetCore.Http;
+﻿using CookBook.Communication.Response;
+using CookBook.Domain.Entity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,7 +19,7 @@ namespace CookBook.Application.Services.Token
             _secureKey = secureKey;
         }
 
-        public dynamic GenerateToken(Usuario user)
+        public TokenResponse GenerateToken(Usuario user)
         {
             var claims = new List<Claim>
             {
@@ -36,19 +36,13 @@ namespace CookBook.Application.Services.Token
             };
 
             var securityToken = tokenHandler.CreateToken(tokenDescription);
-
-            var cookieOptions = new CookieOptions()
+            
+            TokenResponse response = new()
             {
-                Path = "/",
-                HttpOnly = false,
-                IsEssential = true,
-                Secure = true,
-                Expires = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes),
+                Token = tokenHandler.WriteToken(securityToken),
+                LifeTimeInMinutes = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes)
             };
-            dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
-            dynamicResponse.Token = tokenHandler.WriteToken(securityToken);
-            dynamicResponse.LifeTimeInMinutes = DateTime.UtcNow.AddMinutes(_lifeTimeInMinutes);
-            return dynamicResponse;
+            return response;
         }
 
         public ClaimsPrincipal ValidateToken(string token)
