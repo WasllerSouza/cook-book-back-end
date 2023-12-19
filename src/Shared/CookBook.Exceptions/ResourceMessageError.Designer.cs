@@ -124,6 +124,15 @@ namespace CookBook.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Receita não encontrada..
+        /// </summary>
+        public static string RECEITA_NAO_ENCONTRADA {
+            get {
+                return ResourceManager.GetString("RECEITA_NAO_ENCONTRADA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A senha atual é inválida..
         /// </summary>
         public static string SENHA_ATUAL_INVALIDA {

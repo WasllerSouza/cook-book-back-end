@@ -3,6 +3,7 @@ using CookBook.Application.Services.Token;
 using CookBook.Application.Services.UserSession;
 using CookBook.Application.UseCases.DashBoard;
 using CookBook.Application.UseCases.Revenue.Register;
+using CookBook.Application.UseCases.Revenue.Search;
 using CookBook.Application.UseCases.Token;
 using CookBook.Application.UseCases.User.RecoveryPassword;
 using CookBook.Application.UseCases.User.Register;
@@ -44,6 +45,7 @@ namespace CookBook.Application
                     .AddScoped<IRevenueRegisterUseCase, RevenueRegisterUseCase>()
                     .AddScoped<ITokenUseCase, TokenUseCase>()
                     .AddScoped<IDashBoardUseCase, DashBoardUseCase>()
+                    .AddScoped<IRevenueSearchUseCase, RevenueSearchUseCase>()
                     ;
         }
 
