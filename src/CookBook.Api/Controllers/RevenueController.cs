@@ -1,12 +1,15 @@
 ﻿using CookBook.Api.Filters;
 using CookBook.Application.UseCases.DashBoard;
 using CookBook.Application.UseCases.Revenue.Register;
+using CookBook.Application.UseCases.Revenue.Search;
 using CookBook.Communication.Request;
 using CookBook.Communication.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,6 +48,19 @@ public class RevenueController : ControllerBase
         }
 
         return NoContent();
+
+    }
+
+    [HttpGet("find", Name = "revenue-find-by-id")]
+    [ProducesResponseType(typeof(GenericResponse<RevenueResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SearchRevenueById(
+             [FromServices] IRevenueSearchUseCase useCase,
+             [FromQuery] string Id
+        )
+    {
+        GenericResponse<RevenueResponse> response = await useCase.Execute(new Guid(Id));
+
+        return Ok(response);
 
     }
 }
