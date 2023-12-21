@@ -128,8 +128,6 @@ Sinta-se livre para usar este projeto para estudar e aprender. Você não tem pe
 
 [sonarclound-shield]: https://img.shields.io/badge/Sonarcloud-000000?style=for-the-badge&logo=Sonarcloud&logoColor=white
 
-[buy-me-book]: https://img.shields.io/badge/-buy_me_a_book-gray?logo=buy-me-a-coffee&style=for-the-badge
-
 <!-- Shields about the project -->
 [maintained-shield]: https://img.shields.io/badge/Maintained%3F-yes-314100.svg?style=for-the-badge
 
