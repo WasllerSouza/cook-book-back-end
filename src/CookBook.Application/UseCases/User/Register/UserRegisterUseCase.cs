@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
 using CookBook.Application.Services.Cryptography;
 using CookBook.Application.Services.Token;
-using CookBook.Builder.ConcreteBuilder;
-using CookBook.Builder.Director;
 using CookBook.Communication.Request;
 using CookBook.Communication.Response;
 using CookBook.Domain.Entity;
-using CookBook.Domain.Repository;
+using CookBook.Domain.Repository.UsuarioRepository;
 using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
 using CookBook.Infrastructure.RepositoryAccess.Repository;
+using FactoryMethod.ConcreteCreator;
 using Microsoft.AspNetCore.Http;
+using Strategy.ConcreteStrategy;
+using Strategy.Context;
+using System.Net;
 
 namespace CookBook.Application.UseCases.User.Register;
 
@@ -22,10 +24,10 @@ public class UserRegisterUseCase : IUserRegisterUseCase
     private readonly IMapper _mapper;
     private readonly IWorkUnit _workUnit;
     private readonly PasswordEncrypt _passwordEncrypt;
-    private readonly TokenController _tokenController;
+    private readonly TokenService _tokenController;
 
     public UserRegisterUseCase(IUsuarioWriteOnlyRepository writeOnlyRepository, IUsuarioReadOnlyRepository readOnlyRepository,
-        IMapper mapper, IWorkUnit workUnit, PasswordEncrypt passwordEncrypt, TokenController tokenController)
+        IMapper mapper, IWorkUnit workUnit, PasswordEncrypt passwordEncrypt, TokenService tokenController)
     {
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
@@ -35,7 +37,7 @@ public class UserRegisterUseCase : IUserRegisterUseCase
         _tokenController = tokenController;
     }
 
-    public async Task<GenericResponse<dynamic>> Execute(UserRegisterRequest request, IResponseCookies cookies)
+    public async Task<GenericResponse<TokenResponse>> Execute(UserRegisterRequest request)
     {
         await Validate(request);
 
@@ -47,17 +49,19 @@ public class UserRegisterUseCase : IUserRegisterUseCase
 
         await _workUnit.Commit();
 
-        _tokenController.GenerateToken(request, cookies);
-
-        return GetGenericResponse(new GenericResponseDirector<dynamic>(new GenericResponseSuccess<dynamic>()));
-
+        TokenResponse token = _tokenController.GenerateToken(userEntity);
+        return FactoryMethod(token, (int)HttpStatusCode.Created);
     }
 
-    private GenericResponse<dynamic> GetGenericResponse(GenericResponseDirector<dynamic> response)
+    private GenericResponse<TokenResponse> FactoryMethod(TokenResponse data, int statusCode)
     {
-        response.CreateGenericResponse(null);
-        response.GetGenericResponse().Message = "Usuário criado com sucesso!";
-        return response.GetGenericResponse();
+        dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
+        dynamicResponse.Data = data;
+        dynamicResponse.StatusCode = statusCode;
+
+        var creator = new ConcreteCreatorSuccessResponse<TokenResponse>();
+
+        return creator.SomeOperation(dynamicResponse);
     }
 
     private async Task Validate(UserRegisterRequest request)
@@ -73,7 +77,9 @@ public class UserRegisterUseCase : IUserRegisterUseCase
         if (!result.IsValid)
         {
             var errorMessage = result.Errors.Select(userError => userError.ErrorMessage).ToList();
-            throw new ValidationErrorException(errorMessage);
+
+            var context = new Context(new ConcreteStrategyValidationException());
+            context.ThrowException(errorMessage);
         }
 
     }

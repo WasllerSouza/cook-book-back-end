@@ -1,7 +1,6 @@
-﻿using CookBook.Builder.ConcreteBuilder;
-using CookBook.Builder.Director;
-using CookBook.Exceptions;
+﻿using CookBook.Exceptions;
 using CookBook.Exceptions.ExceptionsBase;
+using FactoryMethod.ConcreteCreator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Collections.Generic;
@@ -20,16 +19,14 @@ public class FilterExceptions : IExceptionFilter
         }
         else
         {
-            HandleUnknownException(context);
+           // HandleUnknownException(context);
         }
     }
 
     private void HandleCookBookException(ExceptionContext context)
     {
-        if (context.Exception is ValidationErrorException)
-        {
-            HandleValidationException(context);
-        }
+        if (context.Exception is ValidationErrorException) { HandleValidationException(context); }
+        else if (context.Exception is SingInErrorException) { HandleSingInException(context); }
 
     }
 
@@ -39,23 +36,44 @@ public class FilterExceptions : IExceptionFilter
 
         var validationErrorException = context.Exception as ValidationErrorException;
 
-        var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
+        context.Result = new ObjectResult(
+                FactoryMethod(validationErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode)
+           );
+    }
 
-        genericResponse.CreateGenericResponse(validationErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode);
+    private void HandleSingInException(ExceptionContext context)
+    {
+        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
 
-        context.Result = new ObjectResult(genericResponse.GetGenericResponse());
+        var singInErrorException = context.Exception as SingInErrorException;
+
+        context.Result = new ObjectResult(
+                FactoryMethod(singInErrorException.ErrorsMessages.ToList(), context.HttpContext.Response.StatusCode)
+           );
     }
 
     private void HandleUnknownException(ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        var messages = new List<string>();
-        messages.Add(ResourceMessageError.ERRO_DESCONHECIDO);
+        var messages = new List<string>()
+        {
+            ResourceMessageError.ERRO_DESCONHECIDO 
+        };
 
-        var genericResponse = new GenericResponseDirector<List<string>>(new GenericResponseError<List<string>>());
-        genericResponse.CreateGenericResponse(messages, context.HttpContext.Response.StatusCode);
+        context.Result = new ObjectResult(
+                FactoryMethod(messages, context.HttpContext.Response.StatusCode)
+           );
+    }
 
-        context.Result = new ObjectResult(genericResponse.GetGenericResponse());
+    private dynamic FactoryMethod(List<string> errors, int statusCode)
+    {
+        dynamic dynamicResponse = new System.Dynamic.ExpandoObject();
+        dynamicResponse.Errors = errors;
+        dynamicResponse.StatusCode = statusCode;
+
+        var creator = new ConcreteCreatorErrorResponse<List<string>>();
+
+        return creator.SomeOperation(dynamicResponse);
     }
 }

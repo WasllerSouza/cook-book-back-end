@@ -61,6 +61,15 @@ namespace CookBook.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Seu acesso não foi autorizado para este conteúdo..
+        /// </summary>
+        public static string ACESSO_NEGADO {
+            get {
+                return ResourceManager.GetString("ACESSO_NEGADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O e-mail do usuário é invalido..
         /// </summary>
         public static string EMAIL_USUARIO_INVALIDO {
@@ -97,11 +106,38 @@ namespace CookBook.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O e-mail e/ou senha estão incorretos..
+        /// </summary>
+        public static string LOGIN_INVALIDO {
+            get {
+                return ResourceManager.GetString("LOGIN_INVALIDO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do usuário não pode estar nulo..
         /// </summary>
         public static string NOME_USUARIO_NULO {
             get {
                 return ResourceManager.GetString("NOME_USUARIO_NULO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Receita não encontrada..
+        /// </summary>
+        public static string RECEITA_NAO_ENCONTRADA {
+            get {
+                return ResourceManager.GetString("RECEITA_NAO_ENCONTRADA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A senha atual é inválida..
+        /// </summary>
+        public static string SENHA_ATUAL_INVALIDA {
+            get {
+                return ResourceManager.GetString("SENHA_ATUAL_INVALIDA", resourceCulture);
             }
         }
         
@@ -138,6 +174,15 @@ namespace CookBook.Exceptions {
         public static string TELEFONE_USUARIO_NULO {
             get {
                 return ResourceManager.GetString("TELEFONE_USUARIO_NULO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Sua seção expirou, faça o login novamente para continuar navegando..
+        /// </summary>
+        public static string TOKEN_EXPIRADO {
+            get {
+                return ResourceManager.GetString("TOKEN_EXPIRADO", resourceCulture);
             }
         }
     }

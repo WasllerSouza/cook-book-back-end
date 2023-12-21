@@ -17,6 +17,11 @@
     <ProjectReference Include="..\Shared\CookBook.Builder\CookBook.Builder.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Communication\CookBook.Communication.csproj" />
     <ProjectReference Include="..\Shared\CookBook.Exceptions\CookBook.Exceptions.csproj" />
+    <ProjectReference Include="..\Shared\FactoryMethod\FactoryMethod.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Binder\" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ public class CookBookContext : DbContext
 {
 
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Receita> Receitas { get; set; }
 
     public CookBookContext(DbContextOptions<CookBookContext> options) : base(options)
     {
